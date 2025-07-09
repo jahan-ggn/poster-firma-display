@@ -1,0 +1,6 @@
+en:
+  theme_metadata:
+    description: Displays the user's “Firma” custom field next to their name on each
+      post.
+    settings:
+      example_setting: A description of a setting.
