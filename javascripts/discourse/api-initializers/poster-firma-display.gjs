@@ -19,7 +19,13 @@ export default {
           const value = userFields?.[`user_field_${fieldId}`];
 
           if (!isEmpty(value)) {
-            return helper.h("span.poster-user-field", value);
+            return helper.h(
+              "span.poster-user-field",
+              {
+                style: "order: 2;",
+              },
+              value
+            );
           }
         }
 
