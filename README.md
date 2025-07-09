@@ -1,5 +1,5 @@
-# poster-firma-display
+# Poster Firma Display
 
 **Theme Summary**
 
-For more information, please see: **url to meta topic**
+Displays the user's “Firma” custom field next to their name on each post.
