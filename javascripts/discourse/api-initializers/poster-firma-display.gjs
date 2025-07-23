@@ -1,36 +1,41 @@
-import { isEmpty } from "@ember/utils";
+import Component from "@glimmer/component";
+import { service } from "@ember/service";
 import { withPluginApi } from "discourse/lib/plugin-api";
+
+class PosterFirmaDisplay extends Component {
+  @service site;
+
+  get firmaValue() {
+    const siteUserFields = this.site.user_fields;
+    const post = this.args.post;
+    const userFields = post.user_custom_fields;
+
+    const positionField = siteUserFields.find(
+      (field) => field.name === "Firma"
+    );
+    if (!positionField) {
+      return null;
+    }
+
+    const fieldId = positionField.id;
+    return userFields[`user_field_${fieldId}`];
+  }
+
+  <template>
+    <span class="poster-user-field" style="order:2;">
+      {{this.firmaValue}}
+    </span>
+  </template>
+}
 
 export default {
   name: "poster-firma-display",
   initialize() {
-    withPluginApi("1.37.3", (api) => {
-      api.decorateWidget("poster-name:after", (helper) => {
-        const post = helper.getModel();
-        const siteUserFields = helper.attrs.user.site.user_fields;
-        const userFields = post.user_custom_fields;
-
-        const positionField = siteUserFields.find(
-          (field) => field.name === "Firma"
-        );
-
-        if (positionField) {
-          const fieldId = positionField.id;
-          const value = userFields?.[`user_field_${fieldId}`];
-
-          if (!isEmpty(value)) {
-            return helper.h(
-              "span.poster-user-field",
-              {
-                style: "order: 2;",
-              },
-              value
-            );
-          }
-        }
-
-        return null;
-      });
+    withPluginApi((api) => {
+      api.renderAfterWrapperOutlet(
+        "post-meta-data-poster-name",
+        PosterFirmaDisplay
+      );
     });
   },
 };
