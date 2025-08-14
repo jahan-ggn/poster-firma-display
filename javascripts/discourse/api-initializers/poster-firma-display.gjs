@@ -8,7 +8,7 @@ class PosterFirmaDisplay extends Component {
   get firmaValue() {
     const siteUserFields = this.site.user_fields;
     const post = this.args.post;
-    const userFields = post.user_custom_fields;
+    const userFields = post.user_custom_fields || {};
 
     const positionField = siteUserFields.find(
       (field) => field.name === "Firma"
@@ -18,7 +18,7 @@ class PosterFirmaDisplay extends Component {
     }
 
     const fieldId = positionField.id;
-    return userFields[`user_field_${fieldId}`];
+    return userFields[`user_field_${fieldId}`] || null;
   }
 
   <template>
